@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="script.js"></script>
+    <title>Golden Road - Squaring the triangle</title>
+</head>
+
+<body>
+    <svg style="background-color: #fff;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="-10 -10 250 250">
+        <defs>
+            <symbol id="a">
+                <rect width="50" height="50" />
+            </symbol>
+
+            <symbol id="b">
+                <rect width="20" height="20" />
+            </symbol>
+
+            <symbol id="c">
+                <polygon points="90,140 140,120 120,70 70,90" />
+            </symbol>
+
+            <symbol id="triangle">
+                <polygon points="90,140 140,140 140,120" />
+            </symbol>
+
+            <pattern id="grid" viewbox="45,36,53.8516486320,53.8516486320" width="53.8516486320" height="53.8516486320"
+                patternunits="userSpaceOnUse">
+                <g fill="none" stroke-dasharray="3" stroke-width=".3">
+                    <g transform="translate(-5,0) rotate(21.8, 50, 90)">
+                        <g id="gridA" visibility="hidden">
+                            <rect stroke="blue" width="50" height="50" x="30" y="-10" />
+                            <rect stroke="blue" width="50" height="50" x="50" y="40" />
+                            <rect stroke="blue" width="50" height="50" x="0" y="60" />
+                        </g>
+                        <g id="gridB" visibility="hidden">
+                            <rect stroke="red" width="20" height="20" x="80" y="20" />
+                            <rect stroke="red" width="20" height="20" x="30" y="40" />
+                        </g>
+                    </g>
+                    <rect id="gridC" stroke="magenta" width="100%" height="100%" x="45" y="36" visibility="hidden" />
+                </g>
+            </pattern>
+        </defs>
+
+        <rect id="gridPattern" fill="url(#grid)" width="200%" height="200%" x="-50%" y="-50%"
+            transform="translate(49.9,40) rotate(-21.8)" />
+
+        <g visibility="hidden">
+            <use id="triangleMain" href="#triangle" fill="lime" />
+            <use id="squareC" href="#c" fill="magenta" />
+            <use id="squareB" href="#b" fill="red" x="140" y="120" />
+            <use id="squareA" href="#a" fill="blue" x="90" y="90" />
+
+            <g id="outlinedSlices" stroke="black" stroke-width=".15" fill="none">
+                <g>
+                    <polygon fill="blue" points="90,90 90,140 140,120 128,90" />
+                    <polygon fill="blue" points="140,120 140,90 128,90" />
+                    <use href="#triangle" fill="blue" />
+                </g>
+                <g>
+                    <polygon fill="red" points="140,120 140,140 148,140" />
+                    <polygon fill="red" points="160,140 160,120 140,120 148,140" />
+                </g>
+            </g>
+
+            <use id="triangleOutline" href="#triangle" fill="none" stroke="yellow" stroke-width=".5" />
+        </g>
+    </svg>
+</body>
+
+</html>
