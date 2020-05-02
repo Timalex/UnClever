@@ -4,14 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { margin:0 } svg { display:block; max-width:100vh; margin:auto }
+    </style>
     <script defer src="script.js"></script>
-    <title>Golden Road - Squaring the triangle</title>
+    <title>Golden Road - Squaring the Triangle</title>
 </head>
 
 <body>
-    <svg style="background-color: #fff;" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="-10 -10 250 250">
+    <svg viewBox="-10 -10 250 250">
         <defs>
             <symbol id="a">
                 <rect width="50" height="50" />
@@ -54,23 +55,20 @@
         <g visibility="hidden">
             <use id="triangleMain" href="#triangle" fill="lime" />
             <use id="squareC" href="#c" fill="magenta" />
-            <use id="squareB" href="#b" fill="red" x="140" y="120" />
-            <use id="squareA" href="#a" fill="blue" x="90" y="90" />
-
-            <g id="outlinedSlices" stroke="black" stroke-width=".15" fill="none">
-                <g>
-                    <polygon fill="blue" points="90,90 90,140 140,120 128,90" />
-                    <polygon fill="blue" points="140,120 140,90 128,90" />
-                    <use href="#triangle" fill="blue" />
+            <g id="slices" shape-rendering="optimizeSpeed" stroke="black" stroke-width="0" fill="none">
+                <g id="squareB">
+                    <polygon id="smallB" fill="red" points="140,120 140,140 148,140" />
+                    <polygon id="bigB" fill="red" points="160,140 160,120 140,120 148,140" />
                 </g>
-                <g>
-                    <polygon fill="red" points="140,120 140,140 148,140" />
-                    <polygon fill="red" points="160,140 160,120 140,120 148,140" />
+                <g id="squareA">
+                    <use href="#triangle" fill="blue" />
+                    <polygon id="smallA" fill="blue" points="140,120 140,90 128,90" />
+                    <polygon id="bigA" fill="blue" points="90,90 90,140 140,120 128,90" />
                 </g>
             </g>
-
-            <use id="triangleOutline" href="#triangle" fill="none" stroke="yellow" stroke-width=".5" />
         </g>
+
+        <use id="triangleOutline" href="#triangle" fill="none" stroke="yellow" stroke-width="0" />
     </svg>
 </body>
 
