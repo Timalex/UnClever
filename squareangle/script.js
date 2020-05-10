@@ -6,63 +6,75 @@ sequencer.defaultTransition = [
 ]
 sequencer.defaultTiming = { duration: 2500, fill: 'forwards' }
 sequencer.addStep = function (selector, transition = this.defaultTransition, timing = this.defaultTiming) {
-    let element = document.querySelector(selector)
-    let animation = element.animate(transition, timing)
-    animation.pause() // Wait with playback
-    this.continuePrevious(animation)
-}
-sequencer.continuePrevious = function (animation) {
-    if (this.animationList.length) {
-        let previousAnimation = this.animationList[this.animationList.length - 1]
-        previousAnimation.onfinish = () => animation.play()
-    }
+    var animation = document.querySelector(selector).animate(transition, timing)
+    animation.cancel() // Wait with playback
     this.animationList.push(animation)
+    if (this.animationList.length > 1) {
+        this.chainToPrevious(animation)
+    }
+}
+sequencer.chainToPrevious = function (currentAnimation) {
+    let previousAnimation = this.animationList[this.animationList.length - 2]
+    previousAnimation.onfinish = () => {
+        if (this.autoPlay) {
+            this.latestAnimation = currentAnimation
+            this.latestAnimation.play()
+        }
+    }
 }
 
 // Setup controls
 sequencer.startSequence = function () {
-    this.animationList[0].play()
+    this.autoPlay = true
+    this.latestAnimation = this.animationList[0]
+    this.latestAnimation.play()
 }
-sequencer.findActivatedAnimation = function () {
-    let activatedAnimation = this.animationList.find(animation => animation.playState == 'running' || animation.playState == 'paused' || animation.playState == 'canceled')
-    return !activatedAnimation ? this.animationList[this.animationList.length - 1] : activatedAnimation
+sequencer.getNextAnimation = function () {
+    let indexLatest = this.animationList.indexOf(this.latestAnimation)
+    return this.animationList[indexLatest + 1]
 }
-sequencer.previous = function () {
-    let activatedAnimation = this.findActivatedAnimation()
-    activatedAnimation.cancel()
-    let indexFollowing = this.animationList.indexOf(activatedAnimation)
-    if (indexFollowing) {
-        this.animationList[indexFollowing - 1].currentTime = 0
+sequencer.getPreviousAnimation = function () {
+    let indexLatest = this.animationList.indexOf(this.latestAnimation)
+    return this.animationList[indexLatest - 1]
+}
+sequencer.stepForward = function () {
+    let nextAnimation = this.getNextAnimation()
+    if (nextAnimation) {
+        this.latestAnimation = nextAnimation
+        this.latestAnimation.finish()
     }
-    else { activatedAnimation.play() }
 }
-sequencer.next = function () {
-    this.findActivatedAnimation().finish()
+sequencer.stepBack = function () {
+    this.latestAnimation.cancel()
+    let previousAnimation = this.getPreviousAnimation()
+    if (previousAnimation) {
+        this.latestAnimation = previousAnimation
+        this.latestAnimation.finish()
+    }
+    else {
+        this.startSequence()
+    }
 }
-sequencer.togglePause = function () {
-    let activatedAnimation = this.findActivatedAnimation()
-    activatedAnimation.playState == 'paused' ? activatedAnimation.play() : activatedAnimation.pause()
-}
+
 addEventListener('keydown', (event) => {
+    sequencer.autoPlay = false
     switch (event.key) {
         case 'ArrowLeft':
-            sequencer.previous()
+            sequencer.stepBack()
             break
         case 'ArrowRight':
-            sequencer.next()
-            break
-        case ' ':
-            sequencer.togglePause()
+            sequencer.stepForward()
             break
     }
     event.preventDefault()
 })
 addEventListener('pointerdown', (event) => {
+    sequencer.autoPlay = false
     if (event.clientX > event.view.innerWidth / 2) {
-        sequencer.next()
+        sequencer.stepForward()
     }
     else {
-        sequencer.previous()
+        sequencer.stepBack()
     }
 })
 
