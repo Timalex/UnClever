@@ -50,11 +50,13 @@
         </defs>
 
         <rect id="gridPattern" fill="url(#grid)" width="300%" height="300%" x="-100%" y="-100%"
-            transform="translate(49.9,40) rotate(-21.8)" />
+            transform="translate(49.9,40) rotate(-21.8)" opacity="0.95"/>
 
         <g visibility="hidden">
+            <!-- <text id="observerEyeSymbol" x="0" y="70" style=" font-size: 1.85em; ">⏿</text> -->
+            <text id="questionedEqualTo" x="104" y="65" style=" font-size: 1.85em; ">≟</text>
             <use id="triangleMain" href="#triangle" fill="lime" />
-            <use id="squareC" href="#c" fill="magenta" />
+            <use id="squareC" href="#c" fill="magenta" style="transform-origin: center;"></use>
             <g id="slices" shape-rendering="optimizeSpeed" stroke="black" stroke-width="0" fill="none">
                 <g id="squareB">
                     <polygon id="smallB" fill="red" points="140,120 140,140 148,140" />
@@ -68,7 +70,7 @@
             </g>
         </g>
 
-        <use id="triangleOutline" href="#triangle" fill="none" stroke="yellow" stroke-width="0" />
+        <!-- <use id="triangleOutline" href="#triangle" fill="none" stroke="yellow" stroke-width="0" /> -->
     </svg>
 </body>
 
